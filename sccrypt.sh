@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
 # sccrypt.sh - Secret encryption/decryption tool
-VERSION="1.0.0"
+VERSION="1.1.0"
 
 set -e
 
 # Function to display usage
 usage() {
+    echo "sccrypt v$VERSION"
     echo
-    echo "Usage: $0 [-e|-d] [-i|-c] <file>"
+    echo "Usage: $(basename "$0") <-e|-d> [-i|-c] <file>"
     echo "  -e  Encrypt the file"
     echo "  -d  Decrypt the file"
     echo "  -i  Modify file in-place (optional)"
@@ -53,10 +54,9 @@ decrypt_file() {
 }
 
 # Check if key file exists
-KEY_FILE="$HOME/.sccrypt.key"
+KEY_FILE="${SCCRYPT_KEY_FILE:-$HOME/.sccrypt.key}"
 if [[ ! -f "$KEY_FILE" ]]; then
     echo "Error: Key file not found at $KEY_FILE" >&2
-    echo "Please create the sccrypt.key file and save it to ~/.sccrypt.key" >&2
     exit 1
 fi
 
@@ -120,6 +120,7 @@ if [[ ! -f "$FILE" ]]; then
 fi
 
 # Read the key
+echo "Using key file: $KEY_FILE"
 KEY=$(cat "$KEY_FILE")
 if [[ -z "$KEY" ]]; then
     echo "Error: Key file is empty" >&2
