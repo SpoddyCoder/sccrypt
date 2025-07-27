@@ -1,5 +1,6 @@
 # Super-Simple, Zero-Cost, Github-Based Secrets Management
 `sccrypt` is a simple tool to encrypt files in a way suitable for committing to a github repo. Or for any other reason really.
+
 This means they can be pulled via the github API if required - since they are all encrypted on the way in, they must be decrypted on the way out.
 
 In most cases you'll want to add the secrets directly in the project repo for convenience. But ofc you can clone/fork this repo and add secrets in a central location.

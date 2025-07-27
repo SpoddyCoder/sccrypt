@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # sccrypt.sh - Secret encryption/decryption tool
-VERSION="1.2.0"
+VERSION="1.2.1"
 
 set -e
 
