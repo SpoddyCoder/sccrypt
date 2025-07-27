@@ -88,87 +88,11 @@ echo -e "${BLUE}Test Key File:${NC} $TEST_KEY_FILE"
 echo
 
 
-printHeader "ARGUMENT VALIDATION TESTS"
+source "$TEST_DIR/suite_arguments.sh"
 
-testExitCode "Tool shows proper usage message (exit code)" \
-    "" 1
+source "$TEST_DIR/suite_modes.sh"
 
-testOutput "Tool shows proper usage message (output)" \
-    "" "Usage:"
-
-testExitCode "Rejects invalid switch -x" \
-    "-x $TEST_CASES_DIR/1_empty_file" 1
-
-testExitCode "Rejects missing mode (-e or -d)" \
-    "$TEST_CASES_DIR/1_empty_file" 1
-
-testExitCode "Rejects missing file argument" \
-    "-e" 1
-
-testExitCode "Rejects non-existent file" \
-    "-e non_existent_file.txt" 1
-
-testExitCode "Rejects conflicting flags -i and -c together" \
-    "-e -i -c $TEST_CASES_DIR/1_empty_file" 1
-
-testExitCode "Version flag -v returns success" \
-    "-v" 0
-
-testOutput "Version flag -v shows version info" \
-    "-v" "sccrypt v"
-
-
-printHeader "MODE TESTS"
-
-# Test encrypt/decrypt tostdout mode (default)
-testExitCode "Encrypt to stdout (default mode)" \
-    "-e $TEST_CASES_DIR/2_simple_string"
-
-testExitCode "Decrypt to stdout (default mode)" \
-    "-d $TEST_CASES_DIR/2_simple_string.sccrypt"
-
-testLineCount "Encrypt to stdout does not contain additional output" \
-    "-e $TEST_CASES_DIR/2_simple_string" 1
-
-testLineCount "Decrypt to stdout does not contain additional output" \
-    "-d $TEST_CASES_DIR/2_simple_string.sccrypt" 1
-
-# Test encrypt/decrypt with create mode (-c)
-cp $TEST_CASES_DIR/2_simple_string $TEST_TMP_DIR/test_create_encrypt
-testExitCode "Encrypt with -c flag" \
-    "-e -c $TEST_TMP_DIR/test_create_encrypt"
-
-testFileExists "Check .sccrypt file was created" \
-    "$TEST_TMP_DIR/test_create_encrypt.sccrypt"
-
-cp $TEST_CASES_DIR/2_simple_string.sccrypt $TEST_TMP_DIR/test_create_decrypt.sccrypt
-testExitCode "Dencrypt with -c flag" \
-    "-d -c $TEST_TMP_DIR/test_create_decrypt.sccrypt"
-
-testFileExists "Check original file was created" "$TEST_TMP_DIR/test_create_decrypt"
-
-
-printHeader "ENCRYPTION / DECRYPTION TEST CASES"
-
-# Run tests on all test case files in numerical order
-test_files=()
-for test_file in "$TEST_CASES_DIR"/[0-9]*; do
-    # Skip files with .sccrypt extension
-    if [[ "$test_file" == *.sccrypt ]]; then
-        continue
-    fi
-    if [ -f "$test_file" ]; then
-        test_files+=("$test_file")
-    fi
-done
-# Sort files numerically by filename
-readarray -t sorted_test_files < <(printf '%s\n' "${test_files[@]}" | sort -V)
-
-# Run tests on sorted files
-for test_file in "${sorted_test_files[@]}"; do
-    testEncryptionCase "$test_file"
-    testDecryptionCase "$test_file"
-done
+source "$TEST_DIR/suite_test_cases.sh"
 
 
 ##########################################

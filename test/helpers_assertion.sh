@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+##########################################
+# test helpers
+#
+
 createTmpDir() {
     mkdir -p "$TEST_TMP_DIR"
 }
@@ -52,7 +56,12 @@ displayTestInfo() {
     fi
 }
 
-testExitCode() {
+
+##########################################
+# "assertion" methods
+#
+
+assertExitCode() {
     local test_name="$1"
     local arguments="$2"
     local expected_exit_code="${3:-0}"
@@ -69,7 +78,7 @@ testExitCode() {
     echo
 }
 
-testOutput() {
+assertOutput() {
     local test_name="$1"
     local arguments="$2"
     local expected_pattern="$3"
@@ -86,7 +95,7 @@ testOutput() {
     echo
 }
 
-testLineCount() {
+assertLineCount() {
     local test_name="$1"
     local arguments="$2"
     local expected_line_count="$3"
@@ -119,7 +128,7 @@ testLineCount() {
     echo
 }
 
-testFileExists() {
+assertFileExists() {
     local test_name="$1"
     local file_path="$2"
     
@@ -137,7 +146,7 @@ testFileExists() {
     echo
 }
 
-testEncryptionCase() {
+assertEncryptionCase() {
     local test_file="$1"
     local test_name=$(basename "$test_file")
 
@@ -153,7 +162,7 @@ testEncryptionCase() {
     echo
 }
 
-testDecryptionCase() {
+assertDecryptionCase() {
     local test_file="$1"
     local sccrypt_file="$1.sccrypt"
     local test_name=$(basename "$test_file")

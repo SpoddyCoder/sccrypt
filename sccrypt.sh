@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # sccrypt.sh - Secret encryption/decryption tool
-VERSION="1.2.1"
+VERSION="1.2.2"
 
 set -e
 
@@ -141,10 +141,12 @@ if [[ "$IN_PLACE" == true ]]; then
         encrypt)
             encrypt_file "$FILE" "$TEMP_FILE"
             mv "$TEMP_FILE" "$FILE"
+            echo "Encrypted file in-place: $FILE"
             ;;
         decrypt)
             decrypt_file "$FILE" "$TEMP_FILE"
             mv "$TEMP_FILE" "$FILE"
+            echo "Decrypted file in-place: $FILE"
             ;;
     esac
 elif [[ "$CREATE_COPY" == true ]]; then
