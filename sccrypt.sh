@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
 # sccrypt.sh - Secret encryption/decryption tool
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 set -e
 
 # Function to display usage
 usage() {
-    echo "sccrypt v$VERSION"
     echo
     echo "Usage: $(basename "$0") <-e|-d> [-i|-c] <file>"
+    echo "       $(basename "$0") -v"
     echo "  -e  Encrypt the file"
     echo "  -d  Decrypt the file"
     echo "  -i  Modify file in-place (optional)"
     echo "  -c  Create file.sccrypt and keep original file (optional)"
+    echo "  -v  Show version number"
     echo "  file  Path to the file to encrypt/decrypt"
     echo
     exit 1
@@ -92,6 +93,10 @@ while [[ $# -gt 0 ]]; do
             CREATE_COPY=true
             shift
             ;;
+        -v|--version)
+            echo "sccrypt v$VERSION"
+            exit 0
+            ;;
         -*)
             echo "Error: Unknown option '$1'" >&2
             usage
@@ -120,7 +125,6 @@ if [[ ! -f "$FILE" ]]; then
 fi
 
 # Read the key
-echo "Using key file: $KEY_FILE"
 KEY=$(cat "$KEY_FILE")
 if [[ -z "$KEY" ]]; then
     echo "Error: Key file is empty" >&2

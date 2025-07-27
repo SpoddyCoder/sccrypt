@@ -1,5 +1,5 @@
-# `sccrypt` - Super-Simple, Zero-Cost, Github-Based Secrets Management
-Simple tool to encrypt files in a way suitable for committing to a github repo. Or for any other reason really.
+# Super-Simple, Zero-Cost, Github-Based Secrets Management
+`sccrypt` is a simple tool to encrypt files in a way suitable for committing to a github repo. Or for any other reason really.
 This means they can be pulled via the github API if required - since they are all encrypted on the way in, they must be decrypted on the way out.
 
 In most cases you'll want to add the secrets directly in the project repo for convenience. But ofc you can clone/fork this repo and add secrets in a central location.
@@ -32,6 +32,7 @@ sccrypt <-e|-d> [-c|-i] <file>
 * The tool outputs the encrypted / decrypted `file` to stdout by default
 * Use `-c` flag to create `file.sccrypt` when encrypting (keeps original `file`) or create decrypted `file` when decrypting `.sccrypt` files
 * Use `-i` flag to modify `file` in-place
+* Use `-v` flag to show version number
 * Examples...
 ```bash
 # encrypt/decrypt to stdout
